@@ -35,21 +35,21 @@ async function getRiders(){
     }
 }
 
-/* SE HVORFOR DET HER SKAL BRUGES
 function displayRiders(list) {
-    const tableData = list.map(
-        (rider) =>
-        `<tr>
+    const rows = list.map(
+        (rider) => `
+    <tr>
         <td>${rider.id}</td>
         <td>${rider.firstname}</td>
         <td>${rider.lastname}</td>
         <td>${rider.age}</td>
-        `
-    ).join("");
-    const tableString = tableData.join("\n")
+        <td><a href="#/editrider?id=${rider.id}" class="btn btn-primary">Edit</a></td>
+        <td><a href="#/deleterider?id=${rider.id}" class="btn btn-danger">Delete</a></td>
+    `)
+    const tableString = rows.join("\n")
     document.querySelector("#tbody").innerHTML = sanitizeStringWithTableRows(tableString);
 }
- */
+
 
 export async function load(pg, match) {
     //We dont wan't to setup a new handler each time load fires
@@ -63,7 +63,7 @@ export async function load(pg, match) {
     const p = match?.params?.page || pg; //To support Navigo
     let pageNo = Number(p);
 
-    let queryString = `?size=${SIZE}&page=` + (pageNo - 1);
+    let queryString = `?size=${SIZE}&page=` + (pageNo);
     // let queryString = `?sort=${sortField}&order=${sortOrder}&limit=${SIZE}&page=` + (pageNo - 1);
 
     try {
@@ -71,20 +71,8 @@ export async function load(pg, match) {
     } catch (e) {
         console.error(e);
     }
-    const rows = riders
-        .map(
-            (rider) => `
-    <tr>
-        <td>${rider.id}</td>
-        <td>${rider.firstname}</td>
-        <td>${rider.lastname}</td>
-        <td>${rider.age}</td>
-        <td><a href="#/editrider?id=${rider.id}" class="btn btn-primary">Edit</a></td>
-        <td><a href="#/deleterider?id=${rider.id}" class="btn btn-danger">Delete</a></td>
-    `).join("");
 
-    document.querySelector("#tbody").innerHTML = sanitizeStringWithTableRows(rows);
-
+    displayRiders(riders);
 
     // (C1-2) REDRAW PAGINATION
     paginator({
