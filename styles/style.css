@@ -1,0 +1,19 @@
+/* for general styling */
+body.container-fluid {
+    background-color: #457b9d;
+}
+
+.navbar {
+    color:white;
+    font-size: 1.3em;
+}
+
+.navbar-nav .nav-link.active {
+    background: cadetblue;
+    color:white;
+
+}
+
+a.nav-link {
+    color:white;
+}
