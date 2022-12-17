@@ -6,15 +6,18 @@ import {initDeleteRider} from "./pages/deleterider/deleterider.js";
 import {initEditRider} from "./pages/editrider/editrider.js";
 import {initAddRider} from "./pages/addrider/addrider.js";
 import {initTeams} from "./pages/teams/teams.js";
+import {initRace} from "./pages/race/race.js";
+import {initTour} from "./pages/tour/tour.js";
 
 window.addEventListener("load", async () => {
     const templateHome = await loadHtml("./pages/home/home.html");
     const templateNotFound = await loadHtml("./pages/notFound/notFound.html");
     const templateRiders = await loadHtml("./pages/riders/riders.html");
-    const templateDeleteRider = await loadHtml("./pages/deleterider/deleterider.html");
     const templateEditRider = await loadHtml("./pages/editrider/editrider.html");
     const templateAddRider = await loadHtml("./pages/addrider/addrider.html");
     const templateTeams = await loadHtml("./pages/teams/teams.html");
+    const templateRace = await loadHtml("./pages/race/race.html");
+    const templateTour = await loadHtml("./pages/tour/tour.html");
     adjustForMissingHash();
 
     const router = new Navigo("/", { hash: true });
@@ -30,6 +33,14 @@ window.addEventListener("load", async () => {
         .on({
             "/": () => {
                 renderTemplate(templateHome, "content");
+            },
+            "/race": () => {
+                renderTemplate(templateRace, "content");
+                initRace();
+            },
+            "/tour": () => {
+                renderTemplate(templateTour, "content");
+                initTour();
             },
             "/teams": () => {
                 renderTemplate(templateTeams, "content");

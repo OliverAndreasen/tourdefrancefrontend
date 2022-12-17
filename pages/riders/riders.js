@@ -5,11 +5,10 @@ const url = "http://localhost:8080/api/riders";
 const deleteUrl = "http://localhost:8080/api/riders/delete/";
 
 export function initRiders(){
-    load;
-    getRiders()
 }
 
 let riders = [];
+
 const navigoRoute = "riders"
 
 const SIZE = 3;
@@ -68,11 +67,12 @@ export async function load(pg, match) {
 
     try {
         riders = await fetch(`${url}${queryString}`).then((res) => res.json());
+        console.log(riders);
+        displayRiders(riders);
     } catch (e) {
         console.error(e);
     }
 
-    displayRiders(riders);
 
     // (C1-2) REDRAW PAGINATION
     paginator({
