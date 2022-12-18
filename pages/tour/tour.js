@@ -1,16 +1,12 @@
-import {handleHttpErrors, sanitizeStringWithTableRows} from "../../utils.js";
+import {sanitizeStringWithTableRows} from "../../utils.js";
 
 const riderUrl = "http://localhost:8080/api/riders";
-const raceUrl = "http://localhost:8080/api/races/";
 const racesUrl = "http://localhost:8080/api/races";
 
 
 export function initTour() {
     displayTotalRaceTime();
 }
-
-let race = [];
-let riders = [];
 
 async function getRaces(){
     try {
@@ -38,32 +34,6 @@ async function getRiders() {
         console.log(err);
     }
 }
-
-/*
-async function displayRace() {
-    const raceHeader = document.querySelector("#race-header");
-
-    //create an key value pair of riderId and riderTime
-    const riderIdAndTime = new Map();
-
-    await getRace().then(race => {
-        raceHeader.innerHTML = race.name
-        const raceTimes = race.raceTimes;
-        for (let i = 0; raceTimes.length > i; i++) {
-            riderIdAndTime.set(raceTimes[i].riderId, raceTimes[i].riderTime);
-        }
-        const riderIds = Array.from(riderIdAndTime.keys());
-
-        getRidersByIds(riderIds).then(riders => {
-            riders = riders.map(rider => addTimeToRider(rider, riderIdAndTime.get(rider.id)));
-            riders = sortRidersByTime(riders);
-            riders = addPlacementToRiders(riders);
-            displayRiders(riders);
-        })
-    })
-}
- */
-
 
 async function createMapRiderIdAndTotalTime(){
     const riderIdAndTotalTime = new Map();
@@ -184,7 +154,8 @@ function convertTimeStringToMap(time) {
 }
 
 
-//take timeMap and if the mintues or secounds are higher than 60 take 60 from it and add 1 to the next value and return the timeMap with the new values
+//take timeMap and if the minutes or seconds are higher than 60
+// take 60 from it and add 1 to the next value and return the timeMap with the new values
 function checkTimeMap(timeMap) {
     let hour = Number(timeMap.get("hour"));
     let minute = Number(timeMap.get("minute"));
@@ -223,7 +194,7 @@ function checkTimeMapForNaN(timeMap) {
     return timeMap;
 }
 
-
+//Sorts the riders by time
 function sortRidersByTime(riders) {
     const sortedRiders = riders.sort((a, b) => {
         return a.time > b.time ? 1 : -1;
@@ -251,6 +222,7 @@ function addPlacementToRiders(riders) {
     return riders;
 }
 
+//Display the riders in the table from the array of riders
 function displayRiders(riders) {
     const rows = riders.map(
         (rider) => `
